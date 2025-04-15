@@ -1,0 +1,172 @@
+### Variáveis Globais (Ajuste conforme necessário)
+@baseUrl = http://localhost:3000/api/v1
+@contentType = application/json
+
+# ==========================================
+# A História de Ana: Configurando o Sistema
+# ==========================================
+
+# Ana começa seu dia precisando adicionar novos usuários ao sistema.
+# Primeiro, ela adiciona Alice, que será uma Administradora.
+
+### 1. Cadastrar Alice (Admin)
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "name": "Alice Admin",
+  "email": "erick.tech.oliveira@gmail.com",
+  "role": "ADMIN"
+}
+
+# A API retorna os dados de Alice, incluindo seu ID único.
+# Ana guarda esse ID para usar depois.
+#@aliceId = dd14316a-aa75-4a6f-9e0d-2ed05b267b8b
+
+# ==========================================
+
+# Em seguida, Ana cadastra Bob, que terá o papel de Operador.
+
+### 2. Cadastrar Bob (Operador)
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "name": "Bob Operador",
+  "email": "bob.operador@example.com",
+  "role": "OPERADOR"
+}
+
+# Guarda o ID do Bob.
+@bobId = e22cc1dc-4253-4b71-8f3f-2a7f794cc1a6
+
+# ==========================================
+
+# E também cadastra Charlie, um Gestor.
+
+### 3. Cadastrar Charlie (Gestor)
+POST {{baseUrl}}/users/
+Content-Type: {{contentType}}
+
+{
+  "name": "Charlie Gestor",
+  "email": "charlie.gestor@example.com",
+  "role": "GESTOR"
+}
+
+# Guarda o ID do Charlie.
+@charlieId = bd84936e-be96-4f75-9664-67b161e9e3ab
+
+# ==========================================
+
+# Ana quer verificar se Alice foi cadastrada corretamente.
+# Ela busca os detalhes da Alice usando o ID que guardou.
+
+### 4. Buscar detalhes da Alice
+GET {{baseUrl}}/users/{{aliceId}}
+
+# ==========================================
+
+# Agora, Ana quer ver a lista de todos os usuários cadastrados até o momento,
+# usando a paginação padrão (página 1, limite 10).
+
+### 5. Listar Usuários (Padrão)
+GET {{baseUrl}}/users/
+
+# ==========================================
+
+# Ela também quer testar a paginação, buscando a primeira página com apenas 2 usuários.
+
+### 6. Listar Usuários (Página 1, Limite 2)
+GET {{baseUrl}}/users/?page=1&limit=2
+
+# ==========================================
+
+# Com os usuários cadastrados, Ana precisa criar uma equipe para um novo projeto.
+# Ela cria a equipe "Projeto Alfa" e já adiciona Alice e Bob como membros iniciais.
+
+### 7. Criar Equipe "Projeto Alfa" (com Alice e Bob)
+POST {{baseUrl}}/teams/
+Content-Type: {{contentType}}
+
+{
+  "name": "Projeto Alfa",
+  "description": "Equipe responsável pelo desenvolvimento do Projeto Alfa.",
+  "memberIds": ["{{aliceId}}", "{{bobId}}"]
+}
+
+# Guarda o ID da nova equipe.
+@alfaTeamId = 79ac7268-c89a-45e7-b974-96c106dae4ef
+
+# ==========================================
+
+# Ana confere os detalhes da equipe recém-criada, incluindo os membros.
+
+### 8. Buscar detalhes da Equipe "Projeto Alfa"
+GET {{baseUrl}}/teams/{{alfaTeamId}}
+
+# ==========================================
+
+# Ana percebeu que Charlie também precisa fazer parte da equipe "Projeto Alfa".
+# Ela o adiciona à equipe existente.
+
+### 9. Adicionar Charlie à Equipe "Projeto Alfa"
+POST {{baseUrl}}/teams/{{alfaTeamId}}/members
+Content-Type: {{contentType}}
+
+{
+  "userId": "{{charlieId}}"
+}
+
+# ==========================================
+
+# Ela verifica novamente os detalhes da equipe para confirmar que Charlie foi adicionado.
+
+### 10. Buscar detalhes da Equipe "Projeto Alfa" (Após adicionar Charlie)
+GET {{baseUrl}}/teams/{{alfaTeamId}}
+
+# ==========================================
+
+# Ana revisa os dados e nota que Bob, na verdade, deveria ter o papel de SUPERVISOR, não OPERADOR.
+# Ela atualiza o papel de Bob.
+
+### 11. Atualizar Papel do Bob para SUPERVISOR
+PUT {{baseUrl}}/users/{{bobId}}
+Content-Type: {{contentType}}
+
+{
+  "role": "SUPERVISOR"
+}
+
+# ==========================================
+
+# Ana confere os dados de Bob para ter certeza que a atualização funcionou.
+
+### 12. Buscar detalhes do Bob (Após atualização)
+GET {{baseUrl}}/users/{{bobId}}
+
+# ==========================================
+
+# Houve uma mudança de planos e Bob não participará mais do "Projeto Alfa".
+# Ana remove Bob da equipe.
+
+### 13. Remover Bob da Equipe "Projeto Alfa"
+DELETE {{baseUrl}}/teams/{{alfaTeamId}}/members/{{bobId}}
+
+# ==========================================
+
+# Ana verifica pela última vez os membros da equipe "Projeto Alfa".
+
+### 14. Buscar detalhes da Equipe "Projeto Alfa" (Após remover Bob)
+GET {{baseUrl}}/teams/{{alfaTeamId}}
+
+# ==========================================
+
+# Por fim, Ana decide listar todas as equipes cadastradas no sistema.
+
+### 15. Listar todas as Equipes
+GET {{baseUrl}}/teams/
+
+# ==========================================
+# Fim da história de Ana por hoje. O sistema está configurado!
+# ==========================================

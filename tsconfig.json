@@ -1,0 +1,38 @@
+// tsconfig.json
+{
+  "compilerOptions": {
+    /* Type Checking */
+    "strict": true, // Habilita todas as verificações estritas de tipo
+    "noImplicitAny": true, // Erro em expressões e declarações com tipo 'any' implícito
+    "strictNullChecks": true, // Habilita verificações estritas de null/undefined
+    "strictFunctionTypes": true, // Habilita verificações estritas de tipos de função
+    "strictBindCallApply": true, // Habilita 'call', 'bind', e 'apply' estritos em funções
+    "strictPropertyInitialization": true, // Garante que propriedades de classe sejam inicializadas no construtor
+    "noImplicitThis": true, // Erro em 'this' com tipo 'any' implícito
+    "alwaysStrict": true, // Analisa em modo estrito e emite "use strict" para cada arquivo fonte
+
+    /* Modules */
+    "module": "CommonJS", // Especifica o sistema de módulo (CommonJS é padrão para Node.js)
+    "rootDir": "./src", // Especifica o diretório raiz dos arquivos fonte .ts
+    "baseUrl": ".", // Diretório base para resolver nomes de módulo não relativos
+    "paths": {
+      // Mapeamento de caminhos (aliases)
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true, // Permite importar arquivos .json
+
+    /* Emit */
+    "outDir": "./dist", // Redireciona a estrutura de saída para o diretório especificado
+    "esModuleInterop": true, // Permite interoperabilidade com módulos CommonJS
+    "forceConsistentCasingInFileNames": true, // Garante que o nome dos arquivos seja consistente no case-sensitive
+
+    /* Language and Environment */
+    "target": "ES2021", // Versão do ECMAScript de destino
+    "lib": ["ES2021"], // Bibliotecas incluídas na compilação
+
+    /* Completeness */
+    "skipLibCheck": true // Pula a verificação de tipos de todos os arquivos de declaração (.d.ts)
+  },
+  "include": ["src/**/*"], // Quais arquivos incluir na compilação
+  "exclude": ["node_modules", "dist"] // Quais arquivos/pastas excluir
+}
