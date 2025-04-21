@@ -38,6 +38,7 @@ async function sendMail({
       text,
       html,
     });
+
     console.log("Email sent: %s", info.messageId);
   } catch (error) {
     console.error(
@@ -52,7 +53,6 @@ async function sendMail({
     throw new Error(`Failed to send email to ${to}`);
   }
 }
-
 
 export async function sendConfirmationEmailService(
   user: DbUser

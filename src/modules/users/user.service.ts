@@ -1,4 +1,3 @@
-// src/modules/users/user.service.ts
 import { UserRepository } from "./user.repository";
 import { UserCreateInput, UserUpdateInput } from "./user.types";
 import { DbUser } from "@/storage/types";
@@ -20,12 +19,7 @@ export class UserService {
       tempPassword,
     });
 
-    sendConfirmationEmail(newUser).catch((error) => {
-      console.error(
-        `Failed to send confirmation email to ${newUser.email}:`,
-        error
-      );
-    });
+    sendConfirmationEmail(newUser).catch((error) => {});
 
     const { tempPassword: _omitted, ...userResponseData } = newUser;
     return userResponseData;

@@ -1,49 +1,65 @@
-import fastify, { FastifyInstance } from "fastify";
+import fastify, {
+  FastifyInstance,
+  FastifyRequest,
+  FastifyReply,
+} from "fastify";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
 
+import {
+  registerSecurityPlugins,
+  registerErrorHandler,
+  JwtPayload,
+} from "./config/index";
+
 import userRoutes from "./modules/users/user.routes";
 import teamRoutes from "./modules/teams/team.routes";
-// import reportRoutes from './modules/reports/report.routes';
+import ticketRoutes from "./modules/tickets/ticket.routes";
 
-// import { sharedSchemas } from "./shared/schemas";
+declare module "fastify" {
+  interface FastifyInstance {
+    authenticate: (
+      request: FastifyRequest,
+      reply: FastifyReply
+    ) => Promise<void>;
+  }
+}
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = fastify({
-    logger: true,
+    logger: {
+      level: process.env.LOG_LEVEL || "info",
+    },
   }).withTypeProvider<TypeBoxTypeProvider>();
+
+  await registerSecurityPlugins(app);
 
   await app.register(fastifySwagger, {
     mode: "dynamic",
     openapi: {
       info: {
-        title: "API DOCS",
+        title: "CidConnect API DOCS",
         description: "Documentação interativa da API gerada automaticamente.",
         version: "1.0.0",
       },
-      // servers: [
-      //   { url: 'http://localhost:3000', description: 'Desenvolvimento' },
-      //   { url: 'https://api.meudominio.com', description: 'Produção' }
-      // ],
       tags: [
         { name: "Users", description: "Operações relacionadas a usuários" },
         { name: "Teams", description: "Operações relacionadas a times" },
-        // { name: 'Reports', description: 'Operações relacionadas a relatórios' },
+        { name: "Tickets", description: "Operações relacionadas a chamados" },
       ],
-      // components: {
-      //   schemas: sharedSchemas,
-      //   securitySchemes: {
-      //     apiKey: {
-      //       type: 'apiKey',
-      //       name: 'apiKey',
-      //       in: 'header',
-      //     },
-      //   }
-      // },
-      // security: [
-      //   { apiKey: [] }
-      // ],
+
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+            description: "Insira o token JWT no formato: Bearer <seu-token>",
+          },
+        },
+      },
+      security: [{ bearerAuth: [] }],
     },
   });
 
@@ -54,31 +70,19 @@ export async function buildApp(): Promise<FastifyInstance> {
       deepLinking: true,
       displayOperationId: false,
       layout: "BaseLayout",
-      // filter: true,
+      persistAuthorization: true,
     },
-    // staticCSP: true,
   });
-
-  // await app.register(import('@fastify/cors'));
-  // await app.register(import('@fastify/helmet'));
 
   await app.register(userRoutes, { prefix: "/api/v1/users" });
   await app.register(teamRoutes, { prefix: "/api/v1/teams" });
-  // await app.register(reportRoutes, { prefix: '/api/v1/reports' });
+  await app.register(ticketRoutes, { prefix: "/api/v1/tickets" });
 
-  // app.setErrorHandler(globalErrorHandler);
+  app.get("/", { schema: { hide: true } }, async (request, reply) => {
+    return { message: "Welcome to CidConnect API!" };
+  });
 
-  app.get(
-    "/",
-    {
-      schema: {
-        hide: true,
-      },
-    },
-    async (request, reply) => {
-      return { status: "ok", timestamp: new Date().toISOString() };
-    }
-  );
+  registerErrorHandler(app);
 
   return app;
 }

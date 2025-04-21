@@ -24,6 +24,7 @@ export class TeamService {
       for (const userId of data.memberIds) {
         await this.addMemberToTeam(newTeam.id, userId);
       }
+
       const updatedTeam = await this.teamRepository.findById(newTeam.id);
       return updatedTeam!;
     }
@@ -45,7 +46,9 @@ export class TeamService {
         const { tempPassword: _omitted, ...userData } = user;
         members.push(userData);
       } else {
-        // Considerar limpar IDs órfãos aqui ou em um processo separado
+        console.warn(
+          `User with ID ${memberId} not found but listed in team ${id}`
+        );
       }
     }
     return { ...team, members };
@@ -91,7 +94,6 @@ export class TeamService {
     const addedToUser = await this.userRepository.addUserToTeam(userId, teamId);
 
     if (!addedToTeam || !addedToUser) {
-      // Lógica de rollback (remover de onde foi adicionado)
       if (addedToTeam) await this.teamRepository.removeMember(teamId, userId);
       if (addedToUser)
         await this.userRepository.removeUserFromTeam(userId, teamId);
@@ -114,14 +116,4 @@ export class TeamService {
     const success = removedFromTeam || removedFromUser;
     return success;
   }
-
-  // async deleteTeam(id: string): Promise<boolean> {
-  //   const team = await this.teamRepository.findById(id);
-  //   if (team) {
-  //     for (const userId of team.memberIds) {
-  //       await this.userRepository.removeUserFromTeam(userId, id);
-  //     }
-  //   }
-  //   return this.teamRepository.delete(id);
-  // }
 }

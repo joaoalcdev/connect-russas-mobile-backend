@@ -1,8 +1,5 @@
 import { DbUser } from "@/storage/types";
 
-/**
- * Constrói o corpo em texto plano para o email de confirmação.
- */
 export function buildConfirmationEmailText(user: DbUser): string {
   let textBody = `Olá ${user.name},\n\nSua conta no CID Connect está pronta.\n\n`;
   if (user.tempPassword) {
@@ -13,7 +10,6 @@ export function buildConfirmationEmailText(user: DbUser): string {
   textBody += "Atenciosamente,\nEquipe CID Connect";
   return textBody;
 }
-
 
 export function buildConfirmationEmailHtml(
   user: DbUser,
@@ -31,7 +27,6 @@ export function buildConfirmationEmailHtml(
     `;
   }
 
-  // Estilos inline são preferíveis para compatibilidade máxima com clientes de email
   return `
   <!DOCTYPE html>
   <html lang="pt-BR">
@@ -41,7 +36,6 @@ export function buildConfirmationEmailHtml(
     <title>${subject}</title>
     <style>
       body { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
-      /* Outros estilos globais podem ir aqui, mas use com moderação */
     </style>
   </head>
   <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
@@ -49,13 +43,13 @@ export function buildConfirmationEmailHtml(
       <tr>
         <td align="center" style="padding: 20px 0;">
           <table width="600" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <!-- Header -->
+            
             <tr>
               <td style="text-align: center; padding-bottom: 15px; border-bottom: 1px solid #eeeeee;">
                 <h1 style="color: #333333; margin: 0; font-size: 24px;">CID Connect</h1>
               </td>
             </tr>
-            <!-- Content -->
+            
             <tr>
               <td style="padding: 25px 0 15px 0;">
                 <p style="font-size: 16px; line-height: 1.5; color: #333333; margin: 0 0 15px 0;">
@@ -68,17 +62,17 @@ export function buildConfirmationEmailHtml(
                 <p style="font-size: 16px; line-height: 1.5; color: #333333; margin: 0 0 15px 0;">
                   Por favor, faça login utilizando seu email e a senha fornecida (se aplicável).
                 </p>
-                <!-- Opcional: Botão de Login -->
-                <!--
-                <p style="text-align: center; margin: 25px 0;">
-                  <a href="URL_DO_SEU_LOGIN" target="_blank" style="background-color: #007bff; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-size: 16px; display: inline-block;">
-                    Acessar Sistema
-                  </a>
-                </p>
-                -->
+                
+                
+                
+                
+                
+                
+                
+                
               </td>
             </tr>
-            <!-- Footer -->
+            
             <tr>
               <td style="text-align: center; padding-top: 15px; border-top: 1px solid #eeeeee; font-size: 12px; color: #888888;">
                 Este é um email automático, por favor não responda.<br>

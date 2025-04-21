@@ -1,14 +1,14 @@
-// src/storage/types.ts
-import { UserRole } from "@/modules/users/user.types"; // Usando alias do tsconfig
+import { UserRole } from "@/modules/users/user.types";
+import { TicketPriority, TicketStatus } from "../modules/tickets/ticket.types";
 
 export interface DbUser {
   id: string;
   name: string;
   email: string;
   role: UserRole;
-  tempPassword?: string; // Senha temporária
+  tempPassword?: string;
   isActive: boolean;
-  teamIds: string[]; // IDs das equipes às quais o usuário pertence
+  teamIds: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,8 +17,27 @@ export interface DbTeam {
   id: string;
   name: string;
   description: string;
-  memberIds: string[]; // IDs dos usuários na equipe
-  // permissions: any; // Para a história 5 (futuro)
+  memberIds: string[];
+
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface DbTicket {
+  id: string;
+  title: string;
+  description: string;
+  status: TicketStatus;
+  priority: TicketPriority;
+  category: string;
+  location: {
+    address: string;
+    latitude?: number;
+    longitude?: number;
+  };
+  requesterId?: string;
+  assignedTeamId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  resolvedAt?: Date;
 }

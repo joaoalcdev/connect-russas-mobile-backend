@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TicketStatus {
+  PENDENTE
+  EM_ANDAMENTO
+  RESOLVIDO
+  CANCELADO
+}
+
+enum TicketPriority {
+  BAIXA
+  MEDIA
+  ALTA
+  CRITICA
+}
+
+model Ticket {
+  id             String         @id @default(cuid())
+  title          String
+  description    String
+  category       String
+  address        String         // From location.address
+  latitude       Float?         // From location.latitude
+  longitude      Float?         // From location.longitude
+  status         TicketStatus   @default(PENDENTE)
+  priority       TicketPriority @default(MEDIA)
+  requesterId    String?        // Assuming requester is always known at creation
+  assignedTeamId String?        // Optional team assignment
+
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  resolvedAt     DateTime?      // Added based on ticketResponseSchema
+
+  // Relations
+  requester      User?          @relation("RequesterTickets", fields: [requesterId], references: [id])
+  assignedTeam   Team?          @relation("AssignedTeamTickets", fields: [assignedTeamId], references: [id])
+
+  // Indexes
+  @@index([status])
+  @@index([priority])
+  @@index([requesterId])
+  @@index([assignedTeamId])
+  @@index([category])
+  @@index([createdAt]) // Useful for sorting by creation date
+  @@index([updatedAt]) // Useful for sorting by update date
+  @@index([resolvedAt]) // Useful for filtering/sorting resolved tickets
+}
+
+model User {
+  id             String   @id @default(cuid())
+  // ... other fields ...
+
+  createdTickets Ticket[] @relation("RequesterTickets")
+  // ... other relations ...
+}
+
+model Team {
+  id              String   @id @default(cuid())
+  // ... other fields ...
+
+  assignedTickets Ticket[] @relation("AssignedTeamTickets")
+  // ... other relations ...
+}
