@@ -1,4 +1,3 @@
-# filepath: c:\Users\erick\OneDrive\Documents\vscode\connect-russas-mobile-backend\Dockerfile
 # Use uma imagem Node.js oficial como base (escolha uma versão LTS ou a que seu projeto usa)
 FROM node:20-alpine AS builder
 
@@ -39,5 +38,5 @@ COPY package.json ./
 # Exponha a porta que a aplicação usa (definida no .env ou padrão 3000)
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
-CMD ["node", "dist/server.js"]
+# Comando para iniciar a aplicação registrando os paths do tsconfig
+CMD ["node", "-r", "tsconfig-paths/register", "dist/server.js"]
