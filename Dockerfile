@@ -34,6 +34,8 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 # Copie package.json (pode ser útil para scripts ou metadados)
 COPY package.json ./
+# Copie o tsconfig.json para que o tsconfig-paths possa registrar os paths
+COPY tsconfig.json ./
 
 # Exponha a porta que a aplicação usa (definida no .env ou padrão 3000)
 EXPOSE 3000
