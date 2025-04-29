@@ -1,9 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
-export function generateUuid(): string {
-  return uuidv4();
-}
-
 export function generateTemporaryPassword(length: number = 8): string {
   const charset =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";

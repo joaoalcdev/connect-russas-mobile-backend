@@ -42,11 +42,7 @@ export async function registerSecurityPlugins(
   }
 
   const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
-  app.log.info(
-    `Configurando CORS para origens: ${
-      allowedOrigins.length > 0 ? allowedOrigins.join(", ") : "*"
-    }`
-  );
+
   await app.register(fastifyCors, {
     origin: (origin, callback) => {
       if (
@@ -73,9 +69,6 @@ export async function registerSecurityPlugins(
     max: rateLimitMax,
     timeWindow: rateLimitWindow,
   });
-  app.log.info(
-    `Rate limit configurado: ${rateLimitMax} reqs / ${rateLimitWindow}`
-  );
 
   await app.register(fastifyJwt, {
     secret: jwtSecret,
@@ -146,6 +139,4 @@ export function registerErrorHandler(app: FastifyInstance): void {
       }
     }
   });
-
-  app.log.info("Tratador de erros global configurado.");
 }

@@ -1,6 +1,5 @@
 import { users, usersByEmail } from "@/storage";
 import { DbUser } from "@/storage/types";
-import { generateUuid } from "@/lib/utils";
 import { UserCreateInput, UserUpdateInput } from "./user.types";
 
 export class UserRepository {
@@ -13,7 +12,7 @@ export class UserRepository {
 
     const now = new Date();
     const newUser: DbUser = {
-      id: generateUuid(),
+      id: '123',
       ...data,
       isActive: true,
       teamIds: [],

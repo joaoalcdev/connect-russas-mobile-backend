@@ -1,13 +1,12 @@
 import { teams } from "@/storage";
 import { DbTeam } from "@/storage/types";
-import { generateUuid } from "@/lib/utils";
 import { TeamCreateInput, TeamUpdateInput } from "./team.types";
 
 export class TeamRepository {
   async create(data: TeamCreateInput): Promise<DbTeam> {
     const now = new Date();
     const newTeam: DbTeam = {
-      id: generateUuid(),
+      id: '123',
       name: data.name,
       description: data.description ?? "",
       memberIds: data.memberIds ?? [],

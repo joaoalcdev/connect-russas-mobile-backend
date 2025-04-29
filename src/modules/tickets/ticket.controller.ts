@@ -7,7 +7,6 @@ import {
   CreateTicketInput,
   UpdateTicketInput,
 } from "./ticket.schemas";
-import { Prisma } from "@prisma/client";
 
 export class TicketController {
   private service: TicketService;

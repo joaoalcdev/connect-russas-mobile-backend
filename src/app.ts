@@ -1,7 +1,5 @@
 import fastify, {
   FastifyInstance,
-  FastifyRequest,
-  FastifyReply,
 } from "fastify";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import fastifySwagger from "@fastify/swagger";

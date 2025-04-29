@@ -1,11 +1,6 @@
 import { TicketRepository } from "./ticket.repository";
-import {
-  TicketCreateInput,
-  TicketUpdateInput,
-  TicketListFilters,
-  TicketListSort,
-} from "./ticket.types";
-import { Ticket, TicketPriority, TicketStatus } from "@prisma/client";
+import { TicketCreateInput, TicketUpdateInput } from "./ticket.types";
+import { Ticket } from "@prisma/client";
 import {
   ListTicketsQuery,
   TicketResponse,
