@@ -2,10 +2,8 @@ import {
   Prisma,
   PrismaClient,
   Ticket,
-  TicketPriority,
-  TicketStatus,
 } from "@prisma/client";
-import prisma from "@/lib/prisma";
+import prisma from "../../lib/prisma";
 import {
   TicketCreateInput,
   TicketUpdateInput,

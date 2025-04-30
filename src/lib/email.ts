@@ -1,4 +1,4 @@
-import { DbUser } from "@/storage/types";
+import { DbUser } from "../storage/types";
 import { sendConfirmationEmailService } from "../services/email.service";
 
 export async function sendConfirmationEmail(user: DbUser): Promise<void> {

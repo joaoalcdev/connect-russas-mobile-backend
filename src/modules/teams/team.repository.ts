@@ -1,5 +1,5 @@
-import { teams } from "@/storage";
-import { DbTeam } from "@/storage/types";
+import { teams } from "../../storage";
+import { DbTeam } from "../../storage/types";
 import { TeamCreateInput, TeamUpdateInput } from "./team.types";
 
 export class TeamRepository {

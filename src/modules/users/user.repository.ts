@@ -1,5 +1,5 @@
-import { users, usersByEmail } from "@/storage";
-import { DbUser } from "@/storage/types";
+import { users, usersByEmail } from "../../storage";
+import { DbUser } from "../../storage/types";
 import { UserCreateInput, UserUpdateInput } from "./user.types";
 
 export class UserRepository {
