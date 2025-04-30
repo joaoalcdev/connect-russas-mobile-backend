@@ -1,5 +1,5 @@
 import { Type, Static } from "@sinclair/typebox";
-import { userResponseSchema } from "@/modules/users/user.schemas";
+import { userResponseSchema } from "../../modules/users/user.schemas";
 
 const TeamCore = Type.Object({
   name: Type.String({ minLength: 2, description: "Nome da equipe" }),

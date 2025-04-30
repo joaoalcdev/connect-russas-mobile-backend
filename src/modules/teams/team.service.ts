@@ -1,5 +1,5 @@
 import { TeamRepository } from "./team.repository";
-import { UserRepository } from "@/modules/users/user.repository";
+import { UserRepository } from "../../modules/users/user.repository";
 import { TeamCreateInput, TeamUpdateInput } from "./team.types";
 import { DbTeam, DbUser } from "../../storage/types";
 import { ListTeamsQuery } from "./team.schemas";

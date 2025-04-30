@@ -1,4 +1,4 @@
-import { UserRole } from "@/modules/users/user.types";
+import { UserRole } from "../modules/users/user.types";
 import { TicketPriority, TicketStatus } from "../modules/tickets/ticket.types";
 
 export interface DbUser {

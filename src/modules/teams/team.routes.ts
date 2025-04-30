@@ -9,7 +9,7 @@ import {
   addMemberSchema,
   listTeamsQuerySchema,
 } from "./team.schemas";
-import { userResponseSchema } from "@/modules/users/user.schemas";
+import { userResponseSchema } from "../../modules/users/user.schemas";
 import { Type } from "@sinclair/typebox";
 
 async function teamRoutes(fastify: FastifyInstance) {
