@@ -1,6 +1,6 @@
 import { UserRepository } from "./user.repository";
 import { UserCreateInput, UserUpdateInput } from "./user.types";
-import { DbUser } from "@/storage/types";
+import { DbUser } from "../../storage/types";
 import { sendConfirmationEmail } from "@/lib/email";
 import { generateTemporaryPassword } from "@/lib/utils";
 import { ListUsersQuery } from "./user.schemas";

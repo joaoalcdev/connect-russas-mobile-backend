@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { DbUser } from "@/storage/types";
+import { DbUser } from"../storage/types";
 import {
   buildConfirmationEmailText,
   buildConfirmationEmailHtml,

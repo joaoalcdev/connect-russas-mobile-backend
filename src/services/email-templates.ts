@@ -1,4 +1,4 @@
-import { DbUser } from "@/storage/types";
+import { DbUser } from "../storage/types";
 
 export function buildConfirmationEmailText(user: DbUser): string {
   let textBody = `Olá ${user.name},\n\nSua conta no CID Connect está pronta.\n\n`;
