@@ -1,11 +1,12 @@
 import { TicketRepository } from "./ticket.repository";
+import { sendTicketNotificationEmail } from "../../services/notification.service";
 import {
   TicketCreateInput,
   TicketUpdateInput,
   TicketListFilters,
   TicketListSort,
 } from "./ticket.types";
-import { Ticket, TicketPriority, TicketStatus } from "@prisma/client";
+import { User, Ticket, TicketPriority, TicketStatus } from "@prisma/client";
 import {
   ListTicketsQuery,
   TicketResponse,
@@ -130,6 +131,11 @@ export class TicketService {
       throw new Error("Team not found");
     }
 
+    const teamMembers = await this.repository.findTeamMembers(teamId) as { id: string; email: string }[];
+    if (!teamMembers || teamMembers.length === 0) {
+      throw new Error(`No team members found for team ${teamId}`);
+    }
+
     const updatedTicket = await this.repository.update(ticketId, {
       assignedTeamId: teamId,
       status: "EM_ANDAMENTO",
@@ -137,6 +143,20 @@ export class TicketService {
 
     if (!updatedTicket) {
       throw new Error("Failed to update ticket after finding it.");
+    }
+
+    const membersEmails = teamMembers.map((member) => member.email);
+
+    const ticketDetails = {
+      title: updatedTicket.title,
+      description: updatedTicket.description,
+      assignedTo: teamId,
+    };
+
+    try {
+      await sendTicketNotificationEmail(membersEmails, ticketDetails);
+    }catch (error) {
+      console.error("Failed to send notification email:", error);
     }
 
     return toTicketResponse(updatedTicket);

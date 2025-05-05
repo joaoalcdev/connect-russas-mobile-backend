@@ -1,4 +1,4 @@
-import {sendEmail} from "./email.service";
+import {sendMail} from "./email.service";
 
 interface TicketDetails {
     title: string;
@@ -10,7 +10,7 @@ export async function sendTicketNotificationEmail(
     teamMembers: string[],
     ticketDetails: TicketDetails
 ): Promise<void> {
-    const subject = "Novo chamado atribuído: ${ticketDetails.title}";
+    const subject = `Novo chamado atribuído: ${ticketDetails.title}`;
     const textBody = `
         Olá,
         
@@ -28,10 +28,21 @@ export async function sendTicketNotificationEmail(
         `;
     
     for (const member of teamMembers) {
-        await sendEmail({
+        await sendMail({
             to: member,
             subject: subject,
             text: textBody,
+            html: `<p>Olá,</p>
+                   <p>Um novo chamado foi atribuído a sua equipe.</p>
+                   <p>Detalhes do chamado:</p>
+                   <ul>
+                       <li><strong>Título:</strong> ${ticketDetails.title}</li>
+                       <li><strong>Descrição:</strong> ${ticketDetails.description}</li>
+                       <li><strong>Atribuído a:</strong> ${ticketDetails.assignedTo}</li>
+                   </ul>
+                   <p>Por favor, acesse o sistema para mais detalhes.</p>
+                   <p><em>**Esta é uma mensagem automática.**</em></p>
+                   <p><em>**Por favor, não responda a este e-mail.**</em></p>`,
         });
     }
 }

@@ -26,21 +26,21 @@ model Ticket {
   title          String
   description    String
   category       String
-  address        String         // From location.address
-  latitude       Float?         // From location.latitude
-  longitude      Float?         // From location.longitude
+  address        String // From location.address
+  latitude       Float? // From location.latitude
+  longitude      Float? // From location.longitude
   status         TicketStatus   @default(PENDENTE)
   priority       TicketPriority @default(MEDIA)
-  requesterId    String?        // Assuming requester is always known at creation
-  assignedTeamId String?        // Optional team assignment
+  requesterId    String? // Assuming requester is always known at creation
+  assignedTeamId String? // Optional team assignment
 
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  resolvedAt     DateTime?      // Added based on ticketResponseSchema
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  resolvedAt DateTime? // Added based on ticketResponseSchema
 
   // Relations
-  requester      User?          @relation("RequesterTickets", fields: [requesterId], references: [id])
-  assignedTeam   Team?          @relation("AssignedTeamTickets", fields: [assignedTeamId], references: [id])
+  requester    User? @relation("RequesterTickets", fields: [requesterId], references: [id])
+  assignedTeam Team? @relation("AssignedTeamTickets", fields: [assignedTeamId], references: [id])
 
   // Indexes
   @@index([status])
@@ -55,16 +55,16 @@ model Ticket {
 
 model User {
   id             String   @id @default(cuid())
-  // ... other fields ...
-
   createdTickets Ticket[] @relation("RequesterTickets")
-  // ... other relations ...
+  teamId         String?
+  email          String   @unique // Novo campo email, que deve ser único
+
+  team Team? @relation("UserToTeam", fields: [teamId], references: [id])
 }
 
 model Team {
   id              String   @id @default(cuid())
-  // ... other fields ...
+  assignedTickets Ticket[] @relation(" ")
 
-  assignedTickets Ticket[] @relation("AssignedTeamTickets")
-  // ... other relations ...
+  users User[] @relation("UserToTeam")
 }

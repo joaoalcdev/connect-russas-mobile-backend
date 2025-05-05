@@ -4,7 +4,7 @@ import {
   Ticket,
   TicketPriority,
   TicketStatus,
-} from "@prisma/client";
+  User } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import {
   TicketCreateInput,
@@ -118,8 +118,7 @@ export class TicketRepository {
       });
       return updatedTicket;
     } catch (error: any) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
+      if (        error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === "P2025"
       ) {
         return null;
@@ -153,4 +152,11 @@ export class TicketRepository {
       select: { id: true },
     });
   }
+
+  async findTeamMembers(teamId: string): Promise<User[]> {
+    return this.prisma.user.findMany({
+      where: { id : teamId },
+    });
+  }
+  
 }

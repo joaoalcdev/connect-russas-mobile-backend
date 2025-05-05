@@ -17,7 +17,8 @@
     "baseUrl": ".", // Diretório base para resolver nomes de módulo não relativos
     "paths": {
       // Mapeamento de caminhos (aliases)
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@lib/*": ["src/lib/*"]
     },
     "resolveJsonModule": true, // Permite importar arquivos .json
 
@@ -28,7 +29,11 @@
 
     /* Language and Environment */
     "target": "ES2021", // Versão do ECMAScript de destino
-    "lib": ["ES2021"], // Bibliotecas incluídas na compilação
+    "lib": [
+      "ES2021",
+      "DOM",
+      "ESNext"
+    ], // Bibliotecas incluídas na compilação
 
     /* Completeness */
     "skipLibCheck": true // Pula a verificação de tipos de todos os arquivos de declaração (.d.ts)

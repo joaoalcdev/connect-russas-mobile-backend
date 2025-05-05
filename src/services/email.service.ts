@@ -22,7 +22,7 @@ interface MailOptions {
   html: string;
 }
 
-async function sendMail({
+export async function sendMail({
   to,
   subject,
   text,
